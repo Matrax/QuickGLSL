@@ -1,0 +1,15 @@
+#version 460 core
+
+//in
+in vec3 f_color;
+
+//uniforms
+uniform int random;
+
+//out
+out vec4 f_output;
+
+void main()
+{
+    f_output = vec4(cos(f_color.x * random), -sin(f_color.y), tan(f_color.x - f_color.y), 1);
+}

@@ -1,0 +1,10 @@
+#version 460 core
+
+in vec3 f_color;
+
+out vec4 f_output;
+
+void main()
+{
+    f_output = vec4(f_color, 1);
+}

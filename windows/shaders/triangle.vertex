@@ -1,0 +1,16 @@
+#version 460 core
+
+//in
+layout (location = 0) in vec3 v_position;
+
+//uniforms
+uniform int random;
+
+//out
+out vec3 f_color;
+
+void main()
+{
+    f_color = v_position;
+    gl_Position = vec4(v_position, 1.0);
+}
