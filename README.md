@@ -7,6 +7,8 @@ with a triangle in a OpenGL scene.
 QuickGLSL use the last version of OpenGL to do the rendering (OpenGL 4.6), so you can
 use all the last functions implemented in GLSL.
 
+![alt QuickGLSL](https://github.com/Matrax/QuickGLSL/blob/main/images/application.png "GLSLViewer")
+
 # Installation
 
 ## Windows:
