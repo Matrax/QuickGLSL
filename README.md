@@ -12,7 +12,6 @@ use all the last functions implemented in GLSL.
 ## Windows:
 The "window" folder contains an already compiled version for Window 10 of QuickGLSL. (Compiled with MinGW).
 
-
 ## Others
 - Generate the makefile using qmake or cmake with Qt.
 - Compile the program with make.
