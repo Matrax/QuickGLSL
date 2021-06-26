@@ -2,7 +2,7 @@
 
 /**
  * Constructor of the class AppContext.
- * The constructor initialize the QOpenGLWidget.
+ * The constructor initialize the QOpenGLWidget and the noise.
  * @param QWidget* parent The parent widget
  * @author Matrax
  * @version 1.0
@@ -14,7 +14,8 @@ AppContext::AppContext(QWidget * parent) :
       m_fragmentShader(nullptr),
       m_programShader(nullptr),
       m_vao(nullptr),
-      m_vbo(nullptr)
+      m_vbo(nullptr),
+      m_randomGenerator(50)
 {
     //Configure the OpenGL context
     this->setMinimumHeight(400);
@@ -118,7 +119,8 @@ void AppContext::paintGL()
 {
     this->m_programShader->bind();
     this->m_vao->bind();
-    this->m_programShader->setUniformValue(this->m_uniforms["random"], std::rand());
+    this->m_programShader->setUniformValue(this->m_uniforms["random"], static_cast<float>(std::rand()) / static_cast<float>(RAND_MAX));
+    this->m_programShader->setUniformValue(this->m_uniforms["smooth_random"], this->m_randomGenerator.random());
     this->m_functions->glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
     this->m_functions->glDrawArrays(GL_TRIANGLES, 0, 3);
     this->m_vao->release();
@@ -212,6 +214,7 @@ void AppContext::loadTriangleShaders(QString vertex_path, QString fragment_path)
     if(this->m_programShader->isLinked() == true)
     {
         this->m_uniforms["random"] = this->m_programShader->uniformLocation("random");
+        this->m_uniforms["smooth_random"] = this->m_programShader->uniformLocation("smooth_random");
         AppConsole::info("Program shader linked !");
     } else {
         AppConsole::error("Error on linking the shader program");

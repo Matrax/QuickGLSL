@@ -4,7 +4,8 @@
 layout (location = 0) in vec3 v_position;
 
 //uniforms
-uniform int random;
+uniform float random;
+uniform float smooth_random;
 
 //out
 out vec3 f_color;
@@ -12,5 +13,5 @@ out vec3 f_color;
 void main()
 {
     f_color = v_position;
-    gl_Position = vec4(v_position, 1.0);
+    gl_Position = vec4(v_position * smooth_random, 1.0);
 }

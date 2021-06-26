@@ -21,6 +21,7 @@
 
 //QuickGLSL includes
 #include "AppConsole.h"
+#include "SmoothRandomGenerator.h"
 
 /**
  * This class create and manage the main OpenGL context of the application.
@@ -37,13 +38,14 @@ class AppContext : public QOpenGLWidget
     private:
 
         //Attributes
-        std::map<QString, int> m_uniforms;
+        std::map<QString, float> m_uniforms;
         std::unique_ptr<QOpenGLFunctions> m_functions;
         std::unique_ptr<QOpenGLShader> m_vertexShader;
         std::unique_ptr<QOpenGLShader> m_fragmentShader;
         std::unique_ptr<QOpenGLShaderProgram> m_programShader;
         std::unique_ptr<QOpenGLVertexArrayObject> m_vao;
         std::unique_ptr<QOpenGLBuffer> m_vbo;
+        SmoothRandomGenerator m_randomGenerator;
 
     protected:
 
@@ -61,6 +63,7 @@ class AppContext : public QOpenGLWidget
         virtual ~AppContext();
 
         //Methods
+        float noise1D(float index) const;
         void checkOpenGLVersion();
         void loadTriangleBuffers();
         void unloadTriangleShaders();

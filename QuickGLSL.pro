@@ -11,7 +11,8 @@ SOURCES += \
     AppLayout.cpp \
     AppMenuBar.cpp \
     AppWindow.cpp \
-    Main.cpp
+    Main.cpp \
+    SmoothRandomGenerator.cpp
 
 HEADERS += \
     AppConsole.h \
@@ -19,7 +20,8 @@ HEADERS += \
     AppEditor.h \
     AppLayout.h \
     AppMenuBar.h \
-    AppWindow.h
+    AppWindow.h \
+    SmoothRandomGenerator.h
 
 CONFIG += debug_and_release \
           debug_and_release_target \

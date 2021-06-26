@@ -12,8 +12,7 @@ use all the last functions implemented in GLSL.
 # Installation
 
 ## Windows:
-The "window" folder contains an already compiled version for Window 10 of QuickGLSL. (Compiled with MinGW).
-So you can directly go to the deployment section.
+- The "window" folder contains an already compiled version for Window 10 of QuickGLSL. (Compiled with MinGW). So you can directly go to the deployment section.
 
 ## Others
 - Generate the makefile using qmake or cmake with Qt.
@@ -21,9 +20,12 @@ So you can directly go to the deployment section.
 
 # Deployment
 
-You can deploy your application by using the commands given by Qt:
-
 ## Windows
+- windeployqt . --release --no-translations --no-system-d3d-compiler --no-compiler-runtime --no-quick-import
 
-Go in the window folder and do the following command:
-windeployqt . --release --no-translations --no-system-d3d-compiler --no-compiler-runtime --no-quick-import
+# Shaders
+
+## Predefined uniforms variables
+
+- uniform float random (give a random number between 0 and 1 to the shader every frame)
+- uniform float smooth_random (give a smooth random number between 0 and 1 using interpolation to the shader every frame)
