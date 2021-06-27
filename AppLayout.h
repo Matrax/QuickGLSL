@@ -35,7 +35,7 @@ class AppLayout : public QVBoxLayout
         //Constructors and destructor
         AppLayout(QWidget * parent = nullptr);
         AppLayout(const AppLayout &) = delete;
-        virtual ~AppLayout();
+        ~AppLayout();
 
         //Methods
         AppConsole & getConsole();

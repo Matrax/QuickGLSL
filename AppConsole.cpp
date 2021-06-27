@@ -33,7 +33,7 @@ AppConsole::AppConsole(QWidget * parent) :
         this->setWidget(&(this->m_label));
 
         AppConsole::instance.reset(this);
-        AppConsole::info("Main console builded !");
+        AppConsole::info("Main console builded");
     } else {
         AppConsole::error("You can't have multiple instance of the MainConsole");
     }

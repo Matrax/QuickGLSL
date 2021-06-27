@@ -3,6 +3,9 @@
 
 #include <cstdlib>
 #include <ctime>
+#include <cmath>
+
+#define PI 3.14159
 
 /**
  * This class create a smooth random number generator

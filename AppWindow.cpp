@@ -23,7 +23,6 @@ AppWindow::AppWindow(QWidget * parent) :
     this->setMenuBar(&(this->m_menu));
     this->setCentralWidget(&this->m_centralWidget);
     this->m_centralWidget.setLayout(&this->m_layout);
-    this->show();
 
     //Connect interactions
     connect(this->m_menu.getSaveAction(), &QAction::triggered, this, &AppWindow::save);
@@ -32,16 +31,26 @@ AppWindow::AppWindow(QWidget * parent) :
     connect(this->m_menu.getQuitAction(), &QAction::triggered, this, &AppWindow::quit);
     connect(this->m_menu.getAboutAction(), &QAction::triggered, this, &AppWindow::about);
 
-    AppConsole::info("Main window builded !");
+    //Show the window
+    this->show();
+
+    AppConsole::info("Main window builded");
 }
 
 /**
  * Destructor of the AppWindow class.
- * This destructor do nothing.
  * @author Matrax
  * @version 1.0
  */
-AppWindow::~AppWindow() {}
+AppWindow::~AppWindow()
+{
+    disconnect(this->m_menu.getSaveAction(), &QAction::triggered, this, &AppWindow::save);
+    disconnect(this->m_menu.getRecompileAction(), &QAction::triggered, this, &AppWindow::recompile);
+    disconnect(this->m_menu.getSaveAndRecompileAction(), &QAction::triggered, this, &AppWindow::saveAndRecompile);
+    disconnect(this->m_menu.getQuitAction(), &QAction::triggered, this, &AppWindow::quit);
+    disconnect(this->m_menu.getAboutAction(), &QAction::triggered, this, &AppWindow::about);
+    this->hide();
+}
 
 /**
  * This method load the stylesheet of the application
@@ -96,7 +105,6 @@ void AppWindow::recompile()
 {
     this->m_layout.getContext().unloadTriangleShaders();
     this->m_layout.getContext().loadTriangleShaders("shaders/triangle.vertex", "shaders/triangle.fragment");
-    this->m_layout.getContext().repaint();
 }
 
 /**

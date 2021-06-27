@@ -46,6 +46,7 @@ class AppContext : public QOpenGLWidget
         std::unique_ptr<QOpenGLVertexArrayObject> m_vao;
         std::unique_ptr<QOpenGLBuffer> m_vbo;
         SmoothRandomGenerator m_randomGenerator;
+        int m_timerId;
 
     protected:
 
@@ -60,10 +61,9 @@ class AppContext : public QOpenGLWidget
         //Constructors and destructor
         AppContext(QWidget * parent = nullptr);
         AppContext(const AppContext &) = delete;
-        virtual ~AppContext();
+        ~AppContext();
 
         //Methods
-        float noise1D(float index) const;
         void checkOpenGLVersion();
         void loadTriangleBuffers();
         void unloadTriangleShaders();

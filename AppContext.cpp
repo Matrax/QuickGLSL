@@ -15,33 +15,31 @@ AppContext::AppContext(QWidget * parent) :
       m_programShader(nullptr),
       m_vao(nullptr),
       m_vbo(nullptr),
-      m_randomGenerator(50)
+      m_randomGenerator(100),
+      m_timerId(0)
 {
     //Configure the OpenGL context
     this->setMinimumHeight(400);
     this->setCursor(Qt::CrossCursor);
 
-    AppConsole::info("Main OpenGL panel builded !");
+    AppConsole::info("Main OpenGL panel builded");
 }
 
 /**
  * Destructor of the AppContext class.
- * This destructor destroy the triangle VAO and the triangle VBO.
- * It also destroy the current OpenGL context.
  * @author Matrax
  * @version 1.0
  */
 AppContext::~AppContext()
 {
-    this->m_vao->destroy();
-    this->m_vbo->destroy();
+    this->killTimer(this->m_timerId);
     this->doneCurrent();
 }
 
 /**
  * This method check the OpenGL version used by the graphics
- * card, and if it's not the version 4.6, the application show a
- * message box and exit.
+ * card, and if it's not the version 4.6, the application show an
+ * error message box and exit.
  * @author Matrax
  * @version 1.0
  */
@@ -49,7 +47,6 @@ void AppContext::checkOpenGLVersion()
 {
     int majorVersion = 0;
     int minorVersion = 0;
-
     this->m_functions->glGetIntegerv(GL_MAJOR_VERSION, &majorVersion);
     this->m_functions->glGetIntegerv(GL_MINOR_VERSION, &minorVersion);
 
@@ -68,8 +65,8 @@ void AppContext::checkOpenGLVersion()
         message.append(QChar(minorVersion));
         message.append(".\nYou can update your graphic card driver or change your graphics card");
         box.setInformativeText(message);
-        box.exec();
-        std::exit(1);
+        int code = box.exec();
+        std::exit(code);
     }
 }
 
@@ -91,11 +88,11 @@ void AppContext::initializeGL()
     this->m_functions->glClearStencil(0);
 
     //Load shaders and triangle
-    this->loadTriangleBuffers();
     this->loadTriangleShaders("shaders/triangle.vertex", "shaders/triangle.fragment");
+    this->loadTriangleBuffers();
 
     //Set timer event
-    this->startTimer(16, Qt::CoarseTimer);
+    this->m_timerId = this->startTimer(16, Qt::CoarseTimer);
 }
 
 /**
@@ -117,14 +114,20 @@ void AppContext::resizeGL(int width, int height)
  */
 void AppContext::paintGL()
 {
-    this->m_programShader->bind();
-    this->m_vao->bind();
-    this->m_programShader->setUniformValue(this->m_uniforms["random"], static_cast<float>(std::rand()) / static_cast<float>(RAND_MAX));
-    this->m_programShader->setUniformValue(this->m_uniforms["smooth_random"], this->m_randomGenerator.random());
-    this->m_functions->glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
-    this->m_functions->glDrawArrays(GL_TRIANGLES, 0, 3);
-    this->m_vao->release();
-    this->m_programShader->release();
+    if(this->m_programShader->isLinked() == true)
+    {
+        if(this->m_vao->isCreated() == true && this->m_vbo->isCreated() == true)
+        {
+            this->m_programShader->bind();
+            this->m_vao->bind();
+            this->m_programShader->setUniformValue(this->m_uniforms["random"], static_cast<float>(std::rand()) / static_cast<float>(RAND_MAX));
+            this->m_programShader->setUniformValue(this->m_uniforms["smooth_random"], this->m_randomGenerator.random());
+            this->m_functions->glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+            this->m_functions->glDrawArrays(GL_TRIANGLES, 0, 3);
+            this->m_vao->release();
+            this->m_programShader->release();
+        }
+    }
 }
 
 /**
@@ -153,13 +156,13 @@ QString AppContext::readAllDataFromFile(QString path)
     if(file.isOpen() == true)
     {
         source = file.readAll();
-        file.close();
     } else {
         QString message("Error on opening the file ");
         message.append(path);
         AppConsole::error(message);
     }
 
+    file.close();
     return source;
 }
 
@@ -179,48 +182,55 @@ void AppContext::loadTriangleShaders(QString vertex_path, QString fragment_path)
 
     //Compile vertex shader
     QString vertex_source = this->readAllDataFromFile(vertex_path);
-    this->m_vertexShader->compileSourceCode(vertex_source);
-
-    if(this->m_vertexShader->isCompiled() == true)
+    if(vertex_source.isEmpty() == false)
     {
-        AppConsole::info("Vertex shader compiled !");
-    } else {
-        AppConsole::error("Error on compiling the vertex shader");
-        AppConsole::message("==============Vertex===============\n");
-        AppConsole::message(this->m_vertexShader->log());
-        AppConsole::message("===================================");
+        this->m_vertexShader->compileSourceCode(vertex_source);
+        if(this->m_vertexShader->isCompiled() == true)
+        {
+            AppConsole::info("Vertex shader compiled !");
+        } else {
+            AppConsole::error("Error on compiling the vertex shader");
+            AppConsole::message("==============Vertex===============\n");
+            AppConsole::message(this->m_vertexShader->log());
+            AppConsole::message("===================================");
+        }
     }
 
     //Compile fragment shader
     QString fragment_source = this->readAllDataFromFile(fragment_path);
-    this->m_fragmentShader->compileSourceCode(fragment_source);
-
-    if(this->m_fragmentShader->isCompiled() == true)
+    if(fragment_source.isEmpty() == false)
     {
-        AppConsole::info("Fragment shader compiled !");
-    } else {
-        AppConsole::error("Error on compiling the fragment shader");
-        AppConsole::message("===============Fragment==============\n");
-        AppConsole::message(this->m_fragmentShader->log());
-        AppConsole::message("=====================================");
+        this->m_fragmentShader->compileSourceCode(fragment_source);
+        if(this->m_fragmentShader->isCompiled() == true)
+        {
+            AppConsole::info("Fragment shader compiled !");
+        } else {
+            AppConsole::error("Error on compiling the fragment shader");
+            AppConsole::message("===============Fragment==============\n");
+            AppConsole::message(this->m_fragmentShader->log());
+            AppConsole::message("=====================================");
+        }
     }
 
     //Linking vertex and fragment shader
-    this->m_programShader->create();
-    this->m_programShader->addShader(this->m_vertexShader.get());
-    this->m_programShader->addShader(this->m_fragmentShader.get());
-    this->m_programShader->link();
-
-    if(this->m_programShader->isLinked() == true)
+    if(this->m_vertexShader->isCompiled() && this->m_fragmentShader->isCompiled())
     {
-        this->m_uniforms["random"] = this->m_programShader->uniformLocation("random");
-        this->m_uniforms["smooth_random"] = this->m_programShader->uniformLocation("smooth_random");
-        AppConsole::info("Program shader linked !");
-    } else {
-        AppConsole::error("Error on linking the shader program");
-        AppConsole::message("===============Program===============\n");
-        AppConsole::message(this->m_programShader->log());
-        AppConsole::message("=====================================");
+        this->m_programShader->create();
+        this->m_programShader->addShader(this->m_vertexShader.get());
+        this->m_programShader->addShader(this->m_fragmentShader.get());
+        this->m_programShader->link();
+
+        if(this->m_programShader->isLinked() == true)
+        {
+            this->m_uniforms["random"] = this->m_programShader->uniformLocation("random");
+            this->m_uniforms["smooth_random"] = this->m_programShader->uniformLocation("smooth_random");
+            AppConsole::info("Program shader linked !");
+        } else {
+            AppConsole::error("Error on linking the shader program");
+            AppConsole::message("===============Program===============\n");
+            AppConsole::message(this->m_programShader->log());
+            AppConsole::message("=====================================");
+        }
     }
 
 }

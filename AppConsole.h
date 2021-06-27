@@ -43,7 +43,7 @@ class AppConsole : public QScrollArea
         //Constructors and destructor
         AppConsole(QWidget * parent = nullptr);
         AppConsole(const AppConsole &) = delete;
-        virtual ~AppConsole();
+        ~AppConsole();
 
         //Static functions
         static void message(QString output);

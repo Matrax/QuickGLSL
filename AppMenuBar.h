@@ -33,7 +33,7 @@ class AppMenuBar : public QMenuBar
         //Constructors and destructor
         AppMenuBar(QWidget * parent = nullptr);
         AppMenuBar(const AppMenuBar &) = delete;
-        virtual ~AppMenuBar();
+        ~AppMenuBar();
 
         //Methods
         QMenu * getFileMenu();

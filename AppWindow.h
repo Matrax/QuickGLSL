@@ -35,7 +35,7 @@ class AppWindow : public QMainWindow
         //Constructors and destructor
         AppWindow(QWidget *parent = nullptr);
         AppWindow(const AppWindow &) = delete;
-        virtual ~AppWindow();
+        ~AppWindow();
 
         //Methods
         void loadStyle();

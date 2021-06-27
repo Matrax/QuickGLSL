@@ -24,7 +24,7 @@ AppLayout::AppLayout(QWidget * parent) :
     this->m_horizontalLayout.addLayout(&(this->m_editor));
     this->addLayout(&(this->m_horizontalLayout));
 
-    AppConsole::info("Main application layout builded !");
+    AppConsole::info("Main application layout builded");
 }
 
 /**

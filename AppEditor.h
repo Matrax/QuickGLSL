@@ -38,7 +38,7 @@ class AppEditor : public QVBoxLayout
         //Constructors and destructor
         AppEditor(QWidget * parent = nullptr);
         AppEditor(const AppEditor &) = delete;
-        virtual ~AppEditor();
+        ~AppEditor();
 
         //Methods
         void loadFileFromEditor(QTextEdit & editor, QString path);

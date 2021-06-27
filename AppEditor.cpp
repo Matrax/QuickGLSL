@@ -42,7 +42,7 @@ AppEditor::AppEditor(QWidget * parent) :
     //Connect interactions
     connect(&(this->m_fileSelector), &QComboBox::activated, &(this->m_stack), &QStackedWidget::setCurrentIndex);
 
-    AppConsole::info("Main shader editor builded !");
+    AppConsole::info("Main shader editor builded");
 }
 
 /**

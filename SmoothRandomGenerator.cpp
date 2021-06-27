@@ -25,32 +25,31 @@ SmoothRandomGenerator::SmoothRandomGenerator(float distance) : m_distance(distan
 SmoothRandomGenerator::~SmoothRandomGenerator() {}
 
 /**
- * This method return a random float number generated with interpolation
- * @return float A random float number generated with interpolation.
+ * This method return a random float number generated with interpolation and sinus function
+ * @return float A random float number generated with interpolation and sinus function.
  * @author Matrax
  * @version 1.0
  */
 float SmoothRandomGenerator::random()
 {
+    this->m_value = this->m_value + (this->m_next - this->m_actual) / this->m_distance;
+
     if(this->m_actual < this->m_next)
     {
-        this->m_value = this->m_value + (this->m_next - this->m_actual) / this->m_distance;
         if(this->m_value >= this->m_next)
         {
-                this->m_actual = this->m_next;
-                this->m_value = this->m_next;
-                this->m_next = static_cast<float>(std::rand()) / static_cast<float>(RAND_MAX);
+            this->m_actual = this->m_next;
+            this->m_value = this->m_next;
+            this->m_next = static_cast<float>(std::rand()) / static_cast<float>(RAND_MAX);
         }
     } else if(this->m_actual > this->m_next) {
-
-        this->m_value = this->m_value - (this->m_actual - this->m_next) / this->m_distance;
         if(this->m_value <= this->m_next)
         {
-                this->m_actual = this->m_next;
-                this->m_value = this->m_next;
-                this->m_next = static_cast<float>(std::rand()) / static_cast<float>(RAND_MAX);
+            this->m_actual = this->m_next;
+            this->m_value = this->m_next;
+            this->m_next = static_cast<float>(std::rand()) / static_cast<float>(RAND_MAX);
         }
     }
 
-    return this->m_value;
+    return std::sin(this->m_value * PI);
 }
