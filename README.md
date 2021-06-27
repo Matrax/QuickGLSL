@@ -1,12 +1,11 @@
 # QuickGLSL
 
-QuickGLSL is an application using Qt/C++17 to do some test with vertex and fragment shaders.
+## Description
+QuickGLSL is an application developed with the open source version of Qt and using C++17, that can be sued to do some test with vertex and fragment shaders.
+You can edit vertex and fragment shaders and have a direct result with a triangle in a OpenGL scene.
+QuickGLSL use the last version of OpenGL to do the rendering (OpenGL 4.6 core profile), so you can use all the last functions implemented in GLSL.
 
-You can edit vertex and fragment shaders and have a direct result
-with a triangle in a OpenGL scene.
-QuickGLSL use the last version of OpenGL to do the rendering (OpenGL 4.6), so you can
-use all the last functions implemented in GLSL.
-
+## Example
 ![alt QuickGLSL](https://github.com/Matrax/QuickGLSL/blob/main/images/application.png "GLSLViewer")
 
 # Installation
@@ -14,18 +13,19 @@ use all the last functions implemented in GLSL.
 ## Windows:
 - The "window" folder contains an already compiled version for Window 10 of QuickGLSL. (Compiled with MinGW). So you can directly go to the deployment section.
 
-## Others
-- Generate the makefile using qmake or cmake with Qt.
+## Other OS
+- You need to have qmake installed with Qt.
+- Generate the makefile using qmake with Qt
 - Compile the program with make.
 
 # Deployment
 
 ## Windows
-- windeployqt . --release --no-translations --no-system-d3d-compiler --no-compiler-runtime --no-quick-import
+windeployqt . --release --no-translations --no-system-d3d-compiler --no-compiler-runtime --no-quick-import
 
 # Shaders
 
 ## Predefined uniforms variables
 
-- uniform float random (give a random number between 0 and 1 to the shader every frame)
-- uniform float smooth_random (give a smooth random number between 0 and 1 using interpolation to the shader every frame)
+- uniform float random (send to the shader every frame a random number between 0 and 1)
+- uniform float smooth_random (send to the shader every frame a smooth random number using interpolation between 0 and 1)
