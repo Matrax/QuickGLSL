@@ -1,7 +1,7 @@
 # QuickGLSL
 
 ## Description
-QuickGLSL is an application developed with the open source version of Qt and using C++17, that can be sued to do some test with vertex and fragment shaders.
+QuickGLSL is an application developed with the open source version of Qt and using C++17, that can be used to do some test with vertex and fragment shaders.
 You can edit vertex and fragment shaders and have a direct result with a triangle in a OpenGL scene.
 QuickGLSL use the last version of OpenGL to do the rendering (OpenGL 4.6 core profile), so you can use all the last functions implemented in GLSL.
 
