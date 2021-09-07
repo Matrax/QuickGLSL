@@ -16,7 +16,7 @@ QuickGLSL use the last version of OpenGL to do the rendering (OpenGL 4.6 core pr
 OS | Commands
 ------------ | -------------
 Windows | windeployqt . --release --no-translations --no-system-d3d-compiler --no-compiler-runtime --no-quick-import
-Debian | (Not tested/
+Debian | (Not tested yet)
 
 ## Predefined uniforms variables
 Variables | Uses
