@@ -8,24 +8,18 @@ QuickGLSL use the last version of OpenGL to do the rendering (OpenGL 4.6 core pr
 ## Example
 ![alt QuickGLSL](https://github.com/Matrax/QuickGLSL/blob/main/images/application.png "GLSLViewer")
 
-# Installation
+## Installation
+- The "window" folder contains an already compiled version for Window 10 of QuickGLSL (compiled with MinGW). You can directly go to the deployment section.
+- If you have another OS, compile QuickGLSL with QMake. 
 
-## Windows:
-- The "window" folder contains an already compiled version for Window 10 of QuickGLSL. (Compiled with MinGW). So you can directly go to the deployment section.
-
-## Other OS
-- You need to have qmake installed with Qt.
-- Generate the makefile using qmake with Qt
-- Compile the program with make.
-
-# Deployment
-
-## Windows
-windeployqt . --release --no-translations --no-system-d3d-compiler --no-compiler-runtime --no-quick-import
-
-# Shaders
+## Deployment
+OS | Commands
+------------ | -------------
+Windows | windeployqt . --release --no-translations --no-system-d3d-compiler --no-compiler-runtime --no-quick-import
+Debian | (Not tested/
 
 ## Predefined uniforms variables
-
-- uniform float random (send to the shader every frame a random number between 0 and 1)
-- uniform float smooth_random (send to the shader every frame a smooth random number using interpolation between 0 and 1)
+Variables | Uses
+------------ | -------------
+uniform float random | Send every frame to the shaders a random number between 0 and 1.
+uniform float smooth_random | Send every frame to the shaders a smooth random number using interpolation between 0 and 1.
